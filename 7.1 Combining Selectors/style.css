@@ -1,0 +1,29 @@
+/* Write your code here: */
+
+/* group selector */
+h1,
+h2 {
+    color: blueviolet;
+}
+
+/* child selector : only one level descendant */
+.box>p {
+    color: firebrick;
+}
+
+/* descendant selector: apply to descendat of left side (any level below) */
+
+.box li {
+    color: blue;
+}
+
+/* chaining selector: apply where all selectors are true (for a single element) */
+
+li.done {
+    color: green;
+}
+
+
+ul>p.done{
+    font-size: 0.5rem;
+}
