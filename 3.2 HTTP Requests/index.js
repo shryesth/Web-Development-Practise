@@ -6,12 +6,21 @@ app.get("/", (req, res) => {
     res.send("<h1>Home Page</h1>")
 })
 
-app.get("/about", (req, res) => {
-    res.send("<h1>About Page</h1>")
+app.post("/register", (req, res) => {
+    console.log("hello sir")
+    res.sendStatus(201);
 })
 
-app.get("/contact", (req, res) => {
-    res.send("<h1>Contact Page</h1>")
+app.put("/user/shryesth", (req, res) => {
+    res.sendStatus(200);
+})
+
+app.patch("/user/shryesth", (req, res) => {
+    res.sendStatus(200);
+})
+
+app.delete("/user/shryesth", (req, res) => {
+    res.sendStatus(200);
 })
 
 app.listen(port, () => {
