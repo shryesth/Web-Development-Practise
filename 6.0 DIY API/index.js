@@ -21,16 +21,82 @@ app.get("/jokes/:id", (req, res) => {
 })
 
 //3. GET a jokes by filtering on the joke type
+app.get("/filter", (req, res) => {
+  const type = req.query.type
+  const foundJoke = jokes.find((joke) => joke.jokeType == type)
+  res.json(foundJoke)
+})
 
 //4. POST a new joke
+app.post("/jokes", (req, res) => {
+  // const text = req.body.jokeText
+  // const type = req.body.jokeType
+  // const newId = jokes.length + 1
+
+  const newJoke = {
+    id: jokes.length + 1, jokeText: req.body.jokeText, jokeType: req.body.jokeType
+  }
+
+  jokes.push(newJoke)
+  res.json(jokes.slice(-1))
+
+})
 
 //5. PUT a joke
+app.put("/jokes/:id", (req, res) => {
+  const id = parseInt(req.params.id)
+  // const newText = req.body.jokeText
+  // const newType = req.body.jokeType
+  const replacementJoke = {
+    id: id,
+    jokeText: req.body.text,
+    jokeType: req.body.type
+  }
+
+  const searchIndex = jokes.findIndex((joke) => joke.id === id)
+
+  jokes[searchIndex] = replacementJoke
+  res.json(replacementJoke)
+})
 
 //6. PATCH a joke
+app.patch("/jokes/:id", (req, res) => {
+  const id = parseInt(req.params.id)
+  const existingJoke = jokes.find((joke) => joke.id === id)
+  const replacementJoke = {
+    id: id,
+    jokeText: req.body.text || existingJoke.jokeText,
+    jokeType: req.body.type || existingJoke.jokeType
+  };
+
+  const searchIndex = jokes.findIndex((joke) => joke.id === id)
+  jokes[searchIndex] = replacementJoke
+  console.log(jokes[searchIndex])
+  res.json(replacementJoke)
+})
 
 //7. DELETE Specific joke
+app.delete("/jokes/:id", (req, res) => {
+  const id = parseInt(req.params.id)
+  const searchIndex = jokes.findIndex((joke) => joke.id === id)
+  if (searchIndex > -1) {
+    jokes.splice(searchIndex, 1)
+    res.sendStatus(200)
+  } else {
+    res.status(404).json({ error: `Joke with id: ${id} not found. No jokes deleted` })
+  }
+})
 
 //8. DELETE All jokes
+app.delete("/all", (req, res) => {
+  if (masterKey === req.query.key) {
+    jokes = []
+    res.sendStatus(200)
+  }
+  else {
+    res.sendStatus(404).json({ error: `you are not allowed to perform this action` })
+  }
+})
 
 app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
